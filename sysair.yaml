@@ -27,7 +27,7 @@ variables:
   heating_threshold: 20
   humidity_threshold: 60
   co2_threshold: 800
-  summer_temp_threshold: 15  # Average temperature above this is considered summer mode
+  summer_temp_threshold: 15
 
 trigger:
   - platform: state
@@ -60,7 +60,7 @@ action:
       max_room_temp: "{{ [states('sensor.multisensor_henny_temperature') | float, 
                           states('sensor.multisensor_nora_temperature') | float, 
                           states('sensor.multisensor_soverom_temperature') | float] | max }}"
-      temp_3day_avg: "{{ state_attr('sensor.systemair_save_vtr_250_outdoor_air_temperature', '3day_avg') | default(outdoor_temp) }}"
+      temp_3day_avg: "{{ state_attr('sensor.systemair_save_vtr_250_outdoor_air_temperature', '3day_avg') | default(outdoor_temp) | float }}"
       is_summer: "{{ temp_3day_avg > summer_temp_threshold }}"
 
   - choose:
